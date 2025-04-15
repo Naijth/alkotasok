@@ -58,10 +58,14 @@ for (const fieldElement of fieldElements){ //we go through the array
     label.htmlFor = fieldElement.fieldid; //we make it so that clickong on the name selects the textbox
     label.textContent = fieldElement.fieldLabel; //the textcontent
     field.appendChild(label); //we append it
+    field.appendChild(document.createElement('br')); //we break the line
     const input = document.createElement('input'); //we make an input
     input.id = fieldElement.fieldid; //we assign an id so this highlights when we click the name
-    field.appendChild(document.createElement('br')); //we break the line
     field.appendChild(input); //we append the entire thing
+    field.appendChild(document.createElement('br')); //we break the line
+    const error = document.createElement('span'); //add a span
+    error.className = 'error'; //give it the error class
+    field.appendChild(error); //append to the field
 }
 
 const buttonForm = document.createElement('button'); //we make a button
@@ -72,22 +76,35 @@ form.addEventListener('submit', (e) => { //we make an eventListener
     e.preventDefault(); //we prevent default
     const object = {}; //we make an empty object
     const inputFields = e.target.querySelectorAll('input'); //we put everything with the input  class into an array
+    let valid = true; //true by default
     for (const inputField of inputFields){ //we go through said array
+        const error = inputField.parentElement.querySelector('.error'); //select the error box
+        if(!error){ //if it isn't
+            console.error('nincs errorfield'); //error in the console
+            return; //we just leave
+        }
+        error.textContent = ''; //empty the error
+        if(inputField.value == ''){ //if the input is empty
+            error.textContent = 'Kötelező megadni'; //we write the error message
+            valid = false; //we set valid to false
+        }
         object[inputField.id] = inputField.value; //we take the id of the input as a name and add the value of the input to it
     }
-    array.push(object); //we add the object to the array
-    const tbodyRow = document.createElement('tr'); //we make a new row in the body
-    tbody.appendChild(tbodyRow); //we append it to the body
+    if (valid){ //if the entire thing is valid
+        array.push(object); //we add the object to the array
+        const tbodyRow = document.createElement('tr'); //we make a new row in the body
+        tbody.appendChild(tbodyRow); //we append it to the body
 
-    const nameCell = document.createElement('td'); //we make a new cell
-    nameCell.textContent = object.name; //we make the name the same as the object's name variable
-    tbodyRow.appendChild(nameCell); //we append it
+        const nameCell = document.createElement('td'); //we make a new cell
+        nameCell.textContent = object.name; //we make the name the same as the object's name variable
+        tbodyRow.appendChild(nameCell); //we append it
 
-    const titleCell = document.createElement('td'); //we make new cell
-    titleCell.textContent = object.title; //we give it text
-    tbodyRow.appendChild(titleCell); //we append it
+        const titleCell = document.createElement('td'); //we make new cell
+        titleCell.textContent = object.title; //we give it text
+        tbodyRow.appendChild(titleCell); //we append it
 
-    const genreCell = document.createElement('td'); //we make new cell
-    genreCell.textContent = object.genre; //we give it text
-    tbodyRow.appendChild(genreCell); //we append it
+        const genreCell = document.createElement('td'); //we make new cell
+        genreCell.textContent = object.genre; //we give it text
+        tbodyRow.appendChild(genreCell); //we append it
+    }
 })
