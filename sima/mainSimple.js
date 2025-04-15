@@ -28,5 +28,8 @@ for (const cellContent of theadCells){ //we go through the array
     theadRow.appendChild(theadCell); //we append it to the row
 }
 
+const tbody = document.createElement('tbody'); //we make a tbody
+table.appendChild(tbody); //we append it to the table
+
 const formDiv = makeDiv('form'); //makes a div with the form class
 containerDiv.appendChild(formDiv); //appends it to the container
