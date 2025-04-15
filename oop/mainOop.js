@@ -12,5 +12,6 @@ const fieldConfig = [{ //array
     fieldid: 'genre', //a variable
     fieldLabel: 'mufaj' //a variable
 }]
-const table = new Table('table'); //we use the class to make a div with the 'table' class
-const form = new Form('form', fieldConfig); //we make a div with the 'form' class
+const manager = new Manager() //makes a new manager
+const table = new Table('table', manager); //we use the class to make a div with the 'table' class
+const form = new Form('form', fieldConfig, manager); //we make a div with the 'form' class

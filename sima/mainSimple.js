@@ -3,7 +3,7 @@ const array = []; //an empty array
 /**
  * Function is used to reduce code repetition
  * @param {String} className 
- * @returns HTML div Element
+ * @returns {HTMLElement}
  */
 const makeDiv = (className) => { //input is string
     const div = document.createElement('div'); //creates and div HTML Element

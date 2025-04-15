@@ -2,28 +2,49 @@
  * The class we use to make the container divs
  */
 class Area{ //creates the area class
+    /**
+     * @type {HTMLElement}
+     */
+    #div;
 
-    #div; //private variable
+    /**
+     * @type {Manager}
+     */
+    #manager;
 
-    get div(){ //getter
+    /**
+     * getter
+     * @returns {HTMLElement}
+     */
+    get div(){
         return this.#div; //returns the div
+    }
+
+    /**
+     * getter
+     * @returns {Manager}
+     */
+    get manager(){
+        return this.#manager; //returns the manager
     }
 
     /**
      * This makes a div in the container
      * @param {String} className 
      */
-    constructor(className){ 
-        const container = this.#getConntainerDiv(); //we use the function to get the div
+    constructor(className, manager){ 
+        this.#manager = manager; //setter for the manager
+        const container = this.#getContainerDiv(); //we use the function to get the div
         this.#div = document.createElement('div'); //we make a div
         this.#div.className = className; //we set the class to the input
         container.appendChild(this.#div); //we append it to the container
     }
 
     /**
-     * Makes or @returns the container
+     * makes or just returns the container
+     * @returns {HTMLElement}
      */
-    #getConntainerDiv(){
+    #getContainerDiv(){
         let containerDiv = document.querySelector('.containeroop'); //we select the item with the "containeroop" class
         if(!containerDiv){ //if it doesn't exist
             containerDiv = document.createElement('div'); //we make a div
@@ -42,13 +63,29 @@ class Table extends Area{
      * This makes a complete header and the tbody for the div
      * @param {String} cssClass 
      */
-    constructor(cssClass){
-        super(cssClass); //the input for the ARea's constructor will be the same as the input here
-        const tbody = this.#createTable();
+    constructor(cssClass, manager){
+        super(cssClass, manager); //the input for the ARea's constructor will be the same as the input here
+        const tbody = this.#createTable(); //gets the tbody after the table is made
+        this.manager.setAddCreationCallback((creation) => { //we use the callback to add in the row and cells of the tbody
+            const tbodyRow = document.createElement('tr'); //we make a new row in the body
+            tbody.appendChild(tbodyRow); //we append it to the body
+
+            const nameCell = document.createElement('td'); //we make a new cell
+            nameCell.textContent = creation.name; //we make the name the same as the cration's name variable
+            tbodyRow.appendChild(nameCell); //we append it
+
+            const titleCell = document.createElement('td'); //we make new cell
+            titleCell.textContent = creation.title; //we give it text
+            tbodyRow.appendChild(titleCell); //we append it
+
+            const genreCell = document.createElement('td'); //we make new cell
+            genreCell.textContent = creation.genre; //we give it text
+            tbodyRow.appendChild(genreCell); //we append it
+        })
     }
     /**
      * Creates the table
-     * @returns the tbody!!
+     * @returns {HTMLElement} the tbody
      */
     #createTable(){
         const table = document.createElement('table'); //we create a table
@@ -79,8 +116,8 @@ class Form extends Area{
      * makes a complete form that doesn't work
      * @param {String} cssClass 
      */
-    constructor(cssClass, fieldElements){
-        super(cssClass); //the input will be used in area
+    constructor(cssClass, fieldElements, manager){
+        super(cssClass, manager); //the input will be used in area
         const form = document.createElement('form'); //we make a form
         this.div.appendChild(form); //we append the form to the 
 
@@ -101,5 +138,16 @@ class Form extends Area{
         const buttonForm = document.createElement('button'); //we make a button
         buttonForm.textContent = 'hozzáadás'; //we add text to the button
         form.appendChild(buttonForm); //we append the button to the form (button do nothing)
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); //we prevent default
+            const object = {}; //we make an empty object
+            const inputFields = e.target.querySelectorAll('input'); //we put everything with the input  class into an array
+            for (const inputField of inputFields){ //we go through said array
+                object[inputField.id] = inputField.value; //we take the id of the input as a name and add the value of the input to it
+            }
+            const creation = new Creation(object.name, object.title, object.genre);
+            this.manager.addCreation(creation);
+        })
     }
 }
