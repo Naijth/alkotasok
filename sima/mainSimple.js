@@ -1,3 +1,5 @@
+const array = []; //an empty array
+
 /**
  * Function is used to reduce code repetition
  * @param {String} className 
@@ -65,3 +67,27 @@ for (const fieldElement of fieldElements){ //we go through the array
 const buttonForm = document.createElement('button'); //we make a button
 buttonForm.textContent = 'hozzáadás'; //we add text to the button
 form.appendChild(buttonForm); //we append the button to the form (button do nothing)
+
+form.addEventListener('submit', (e) => { //we make an eventListener
+    e.preventDefault(); //we prevent default
+    const object = {}; //we make an empty object
+    const inputFields = e.target.querySelectorAll('input'); //we put everything with the input  class into an array
+    for (const inputField of inputFields){ //we go through said array
+        object[inputField.id] = inputField.value; //we take the id of the input as a name and add the value of the input to it
+    }
+    array.push(object); //we add the object to the array
+    const tbodyRow = document.createElement('tr'); //we make a new row in the body
+    tbody.appendChild(tbodyRow); //we append it to the body
+
+    const nameCell = document.createElement('td'); //we make a new cell
+    nameCell.textContent = object.name; //we make the name the same as the object's name variable
+    tbodyRow.appendChild(nameCell); //we append it
+
+    const titleCell = document.createElement('td'); //we make new cell
+    titleCell.textContent = object.title; //we give it text
+    tbodyRow.appendChild(titleCell); //we append it
+
+    const genreCell = document.createElement('td'); //we make new cell
+    genreCell.textContent = object.genre; //we give it text
+    tbodyRow.appendChild(genreCell); //we append it
+})
