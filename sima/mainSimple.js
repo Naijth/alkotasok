@@ -9,7 +9,7 @@ const makeDiv = (className) => { //input is string
     return div; //returns the div
 }
 
-const containerDiv = makeDiv('conatiner'); //makes a div with the container class
+const containerDiv = makeDiv('container'); //makes a div with the container class
 document.body.appendChild(containerDiv); //appends it to the body
 
 const tableDiv = makeDiv('table'); //makes a div with the table class

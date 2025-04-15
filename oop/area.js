@@ -54,3 +54,49 @@ class Table extends Area{
         table.appendChild(tbody); //we append it to the table
     }
 }
+
+/**
+ * Form is the child of Area
+ */
+class Form extends Area{
+    /**
+     * makes a complete form that doesn't work
+     * @param {String} cssClass 
+     */
+    constructor(cssClass){
+        super(cssClass); //the input will be used in area
+        const form = document.createElement('form'); //we make a form
+        this.div.appendChild(form); //we append the form to the 
+
+        const fieldElements = [{ //array
+            fieldid: 'name', //a variable
+            fieldLabel: 'szerzo' //a variable
+        },
+        {
+            fieldid: 'title', //a variable
+            fieldLabel: 'cim' //a variable
+        },
+        {
+            fieldid: 'genre', //a variable
+            fieldLabel: 'mufaj' //a variable
+        }]
+
+        for (const fieldElement of fieldElements){ //we go through the array
+            const field = document.createElement('div'); //we make a new div for the field
+            field.className = 'field'; //we give it the field class
+            form.appendChild(field); //we append it
+            const label = document.createElement('label'); //we make a label
+            label.htmlFor = fieldElement.fieldid; //we make it so that clickong on the name selects the textbox
+            label.textContent = fieldElement.fieldLabel; //the textcontent
+            field.appendChild(label); //we append it
+            const input = document.createElement('input'); //we make an input
+            input.id = fieldElement.fieldid; //we assign an id so this highlights when we click the name
+            field.appendChild(document.createElement('br')); //we break the line
+            field.appendChild(input); //we append the entire thing
+        }
+
+        const buttonForm = document.createElement('button'); //we make a button
+        buttonForm.textContent = 'hozzáadás'; //we add text to the button
+        form.appendChild(buttonForm); //we append the button to the form (button do nothing)
+    }
+}
