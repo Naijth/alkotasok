@@ -43,7 +43,7 @@ class Table extends Area{
         table.appendChild(thead); //we append it to the table
         const theadRow = document.createElement('tr'); //we make a row
         thead.appendChild(theadRow); //we append it to the thead
-        const theadCells = ['szerzo', 'cim', 'iro'] //we make an array with text
+        const theadCells = ['szerzo', 'cim', 'mufaj'] //we make an array with text
         for (const cellContent of theadCells){ //we go through the array
             const theadCell = document.createElement('th'); //we make a new 'th' cell
             theadCell.innerHTML = cellContent; //we add the current array member as the text
